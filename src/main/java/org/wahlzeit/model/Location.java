@@ -15,6 +15,9 @@ public class Location {
 	 */
 	public Location(Coordinate coordinate){
 		this.coordinate = coordinate;
+		if(null == this.coordinate) {
+			this.coordinate = new Coordinate();
+		}
 	}
 
 	/**

@@ -7,6 +7,8 @@ public class Coordinate {
 	private double x;
 	private double y;
 	private double z;
+	
+	static private double delta = 0.00000001;
 
 	/**
 	 * @methodtype constructor
@@ -95,18 +97,24 @@ public class Coordinate {
 
 		return Math.sqrt(tmp);
 	}
+	
+	/**
+	 * compares this coordinate values with the target's ones, up to an accuracy of delta
+	 * assumptions NaN != NaN, INFINITY != INFINITY, +0.0 == -0.0
+	 * @param other
+	 * @return
+	 */
 
 	public boolean isEqual(Coordinate other) {
-		double delta = 0.00000001;
 		if (null == other) {
 			return false;
 		}
 		if (this == other) {
 			return true;
 		}
-		if (Math.abs(this.x - other.getX()) <= delta 
-				&& Math.abs(this.y - other.getY()) <= delta
-				&& Math.abs(this.z - other.getZ()) <= delta) {
+		if (Math.abs(this.x - other.getX()) <= Coordinate.delta 
+				&& Math.abs(this.y - other.getY()) <= Coordinate.delta
+				&& Math.abs(this.z - other.getZ()) <= Coordinate.delta) {
 			return true;
 		}
 		return false;
