@@ -123,8 +123,38 @@ public class Coordinate {
 	/**
 	 * equals forwarded to isEqual
 	 */
-	public boolean equals(Coordinate other) {
-		return isEqual(other);
+	@Override
+	public boolean equals(Object obj) {
+		if (null == obj) {
+			return false;
+		}
+		if (this == obj) {
+			return true;
+		}
+		if(!(obj instanceof Coordinate)) {
+			return false;
+		}
+		
+		return isEqual((Coordinate) obj);
 	}
+	
+	/**
+	 * generates a hash code for a coordinate object
+	 * does not address the double rounding error problem, still more accurate than the standard hashCode method
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 41;
+		int res = 1;
+		res = prime*res + Double.hashCode(this.x);
+		res = prime*res + Double.hashCode(this.y);
+		res = prime*res + Double.hashCode(this.z);
+		
+		return res;
+	}
+	
+	
+	
+	
 
 }
