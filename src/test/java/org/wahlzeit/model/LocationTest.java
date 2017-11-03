@@ -7,15 +7,15 @@ import org.junit.Before;
 
 
 public class LocationTest {
-	private Coordinate cord;
+	private Coordinate coord;
 	private Location locA;
 	private Location locB;
 	
 	@Before
 	public void initLocAndCoord() {
-		cord = new Coordinate(1, 2, 3);
+		coord = new Coordinate(1, 2, 3);
 		locA = new Location();
-		locB = new Location(cord);
+		locB = new Location(coord);
 	}
 	
 	@Test
@@ -26,10 +26,15 @@ public class LocationTest {
 	
 	@Test
 	public void getSetTest() {
-		assertTrue(cord.equals(locB.getCoordinate()));
+		assertTrue(coord.equals(locB.getCoordinate()));
 		
 		locB.setCoordinate(new Coordinate());
-		assertFalse(cord.equals(locB.getCoordinate()));
+		assertFalse(coord.equals(locB.getCoordinate()));
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void nullPointerShouldThrowException() {
+		locA.setCoordinate(null);
 	}
 
 }

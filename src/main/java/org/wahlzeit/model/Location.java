@@ -31,6 +31,9 @@ public class Location {
 	 * @methodtype set
 	 */
 	public void setCoordinate(Coordinate coordinate){
+		if (null == coordinate) {
+			throw new IllegalArgumentException("passed coordinate parameter must not be null");
+		}
 		this.coordinate = coordinate;
 	}
 }
