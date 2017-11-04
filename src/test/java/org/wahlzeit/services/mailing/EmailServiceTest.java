@@ -24,6 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.wahlzeit.services.EmailAddress;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -32,10 +33,29 @@ public class EmailServiceTest {
 	EmailService emailService = null;
 	EmailAddress validAddress = null;
 
+	/*
+	 * emailService: creates a new EmailserviceManager instance, that initiates a
+	 * defaultService with a LoggingEmailService, this LoggingEmailService then
+	 * again is initiated with a decoration MockEmailService that literary does
+	 * nothing
+	 */
 	@Before
 	public void setup() throws Exception {
 		emailService = EmailServiceManager.getDefaultService();
 		validAddress = EmailAddress.getFromString("test@test.de");
+	}
+	
+	@Test
+	public void testEmailAddress() {
+		EmailAddress a = EmailAddress.getFromString(null);
+		EmailAddress b = EmailAddress.getFromString(null);
+		assertEquals(a, b);
+		
+		EmailAddress x = EmailAddress.getFromString("test@test.de");
+		assertEquals(validAddress, x);
+
+		x = EmailAddress.getFromString("");
+		assertTrue(x.isEmpty());
 	}
 
 	@Test
@@ -44,6 +64,7 @@ public class EmailServiceTest {
 			assertFalse(emailService.sendEmailIgnoreException(validAddress, null, "lol", "hi"));
 			assertFalse(emailService.sendEmailIgnoreException(null, validAddress, null, "body"));
 			assertFalse(emailService.sendEmailIgnoreException(validAddress, null, "hi", "       "));
+			
 		} catch (Exception ex) {
 			Assert.fail("Silent mode does not allow exceptions");
 		}

@@ -81,7 +81,7 @@ public class TellFriendTest {
 	public void testTellFriendPost() {
 		EmailAddress from = EmailAddress.getFromString("info@wahlzeit.org");
 		EmailAddress to = EmailAddress.getFromString("fan@yahoo.com");
-		EmailAddress bcc = session.getClient().getLanguageConfiguration().getAuditEmailAddress();
+		//EmailAddress bcc = session.getClient().getLanguageConfiguration().getAuditEmailAddress();
 		String subject = "Coolest website ever!";
 		String body = "You've got to check this out!";
 
