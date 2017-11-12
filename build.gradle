@@ -59,9 +59,21 @@ dependencies {
 }
 
 test {
+/*
+	useTestNG()
+	
+	include 'org.wahlzeit.allTests.AllSuites.java'
+	
+	testLogging.showStandardStreams = true
+	
+	onOutput { descriptor, event ->
+     logger.lifecycle("Test: " + descriptor + " produced standard out/err: " + event.message )
+  	}
+*/
     filter {
-        includeTestsMatching "org.wahlzeit.*"
+        includeTestsMatching "org.wahlzeit.allTests.*"
     }
+    
 }
 
 appengine {

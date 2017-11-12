@@ -8,7 +8,12 @@ import org.wahlzeit.services.AllServiceTests;
 import org.wahlzeit.utils.AllUtilTests;
 
 @RunWith(Suite.class)
-@SuiteClasses({AllHandlersTests.class, AllHandlersTests.class, AllModelTests.class, AllServiceTests.class, AllUtilTests.class})
+@SuiteClasses({
+	AllHandlersTests.class, 
+	AllModelTests.class,
+	AllServiceTests.class, 
+	AllUtilTests.class
+})
 public class AllSuites {
 
 }
