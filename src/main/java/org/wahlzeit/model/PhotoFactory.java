@@ -32,8 +32,10 @@ public class PhotoFactory {
 	private static final Logger log = Logger.getLogger(PhotoFactory.class.getName());
 	/**
 	 * Hidden singleton instance; needs to be initialized from the outside.
+	 * changed from private to protected to be reused in PizzaPhotoFactory.java
 	 */
-	private static PhotoFactory instance = null;
+	//private static PhotoFactory instance = null;
+	protected static PhotoFactory instance = null;
 
 	/**
 	 *

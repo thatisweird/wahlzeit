@@ -16,7 +16,10 @@ import org.wahlzeit.model.persistence.DatastoreAdapterTest;
 	TagsTest.class,
 	UserStatusTest.class,
 	ValueTest.class,
-	DatastoreAdapterTest.class
+	DatastoreAdapterTest.class,
+	PizzaPhotoFactoryTest.class,
+	PizzaPhotoTest.class,
+	PizzaPhotoManagerTest.class
 })
 public class AllModelTests {
 

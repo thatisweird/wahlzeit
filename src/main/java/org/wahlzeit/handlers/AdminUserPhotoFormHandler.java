@@ -25,6 +25,8 @@ import org.wahlzeit.model.AccessRights;
 import org.wahlzeit.model.Photo;
 import org.wahlzeit.model.PhotoManager;
 import org.wahlzeit.model.PhotoStatus;
+import org.wahlzeit.model.PizzaPhoto;
+import org.wahlzeit.model.PizzaPhotoManager;
 import org.wahlzeit.model.Tags;
 import org.wahlzeit.model.UserSession;
 import org.wahlzeit.services.LogBuilder;
@@ -53,7 +55,8 @@ public class AdminUserPhotoFormHandler extends AbstractWebFormHandler {
 	 */
 	protected void doMakeWebPart(UserSession us, WebPart part) {
 		String photoId = (String) us.getSavedArg("photoId");
-		Photo photo = PhotoManager.getInstance().getPhoto(photoId);
+		//Photo photo = PhotoManager.getInstance().getPhoto(photoId);
+		Photo photo = PizzaPhotoManager.getInstance().getPhoto(photoId);
 		part.addString(Photo.THUMB, getPhotoThumb(us, photo));
 
 		part.addString("photoId", photoId);
@@ -67,7 +70,8 @@ public class AdminUserPhotoFormHandler extends AbstractWebFormHandler {
 	 */
 	protected String doHandlePost(UserSession us, Map args) {
 		String id = us.getAndSaveAsString(args, "photoId");
-		Photo photo = PhotoManager.getInstance().getPhoto(id);
+		//Photo photo = PhotoManager.getInstance().getPhoto(id);
+		Photo photo = PizzaPhotoManager.getInstance().getPhoto(id);
 
 		String tags = us.getAndSaveAsString(args, Photo.TAGS);
 		photo.setTags(new Tags(tags));

@@ -46,9 +46,10 @@ import java.util.logging.Logger;
 public class PhotoManager extends ObjectManager {
 
 	/**
-	 *
+	 * replaced the final instance with an extended version
 	 */
-	protected static final PhotoManager instance = new PhotoManager();
+	//protected static final PhotoManager instance = new PhotoManager();
+	protected static final PizzaPhotoManager instance = new PizzaPhotoManager();
 
 	private static final Logger log = Logger.getLogger(PhotoManager.class.getName());
 
@@ -70,9 +71,10 @@ public class PhotoManager extends ObjectManager {
 	}
 
 	/**
-	 *
+	 * removed the final to redefine getInstance in the extended class
 	 */
-	public static final PhotoManager getInstance() {
+	//public static final PhotoManager getInstance() {
+	public static PhotoManager getInstance() {
 		return instance;
 	}
 
