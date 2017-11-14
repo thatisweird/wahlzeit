@@ -26,8 +26,8 @@ public class OfyService {
 	 * Register all entities at startup
 	 */
 	static {
+		factory().register(PizzaPhoto.class);
 		factory().register(Photo.class);
-		//factory().register(PizzaPhoto.class);
 		factory().register(Globals.class);
 		factory().register(Tag.class);
 		factory().register(User.class);

@@ -9,6 +9,8 @@ public class PizzaPhotoFactory extends PhotoFactory{
 
 	private static final Logger log = Logger.getLogger(PizzaPhotoFactory.class.getName());
 	
+	private static PizzaPhotoFactory instance = null;
+	
 	
 	/**
 	 *
@@ -20,9 +22,9 @@ public class PizzaPhotoFactory extends PhotoFactory{
 	/**
 	 * Public singleton access method.
 	 */
-	public static synchronized PhotoFactory getInstance() {
+	public static synchronized PizzaPhotoFactory getInstance() {
 		if(null == instance) {
-			log.config(LogBuilder.createSystemMessage().addAction("setting generic PhotoFactory").toString());
+			log.config(LogBuilder.createSystemMessage().addAction("setting generic PizzaPhotoFactory").toString());
 			setInstance(new PizzaPhotoFactory());
 		}
 		return instance;
@@ -67,11 +69,6 @@ public class PizzaPhotoFactory extends PhotoFactory{
 	public PizzaPhoto createPhoto(PhotoId id, Location loc, PizzaSize size, PizzaShape shape) {
 		return new PizzaPhoto(id, loc, size, shape);
 	}
-	
-	public Photo loadPhoto(PhotoId id) {
-		return null;
-	}
-	
 	
 	
 }

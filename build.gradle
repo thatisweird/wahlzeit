@@ -71,7 +71,7 @@ test {
   	}
 */
     filter {
-        includeTestsMatching "org.wahlzeit.allTests.*"
+        includeTestsMatching "org.wahlzeit.allTests.AllSuites"
     }
     
 }

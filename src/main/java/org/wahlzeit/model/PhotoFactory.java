@@ -32,10 +32,8 @@ public class PhotoFactory {
 	private static final Logger log = Logger.getLogger(PhotoFactory.class.getName());
 	/**
 	 * Hidden singleton instance; needs to be initialized from the outside.
-	 * changed from private to protected to be reused in PizzaPhotoFactory.java
 	 */
-	//private static PhotoFactory instance = null;
-	protected static PhotoFactory instance = null;
+	private static PhotoFactory instance = null;
 
 	/**
 	 *
@@ -97,9 +95,6 @@ public class PhotoFactory {
                 OfyService.ofy().load().type(Photo.class).ancestor(KeyFactory.createKey("Application", "Wahlzeit")).filter(Photo.ID, id).first().now();
         for (PhotoSize size : PhotoSize.values()) {
             GcsFilename gcsFilename = new GcsFilename("picturebucket", filename);
-
-
-
         }*/
 		return null;
 	}

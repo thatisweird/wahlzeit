@@ -1,6 +1,7 @@
 package org.wahlzeit.servlets;
 
 import com.google.appengine.api.images.Image;
+
 import org.apache.http.HttpStatus;
 import org.wahlzeit.model.Photo;
 import org.wahlzeit.model.PhotoManager;
@@ -10,6 +11,7 @@ import org.wahlzeit.services.LogBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Logger;
