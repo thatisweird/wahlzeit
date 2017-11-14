@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+import com.googlecode.objectify.annotation.Subclass;
 
 public class PizzaPhotoManagerTest{
 	

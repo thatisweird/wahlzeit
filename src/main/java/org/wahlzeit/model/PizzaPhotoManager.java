@@ -16,7 +16,8 @@ public class PizzaPhotoManager extends PhotoManager{
 
 
 	public PizzaPhotoManager() {
-		photoTagCollector = PizzaPhotoFactory.getInstance().createPhotoTagCollector();
+		//photoTagCollector = PizzaPhotoFactory.getInstance().createPhotoTagCollector();
+		super();
 	}
 	
 	

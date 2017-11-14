@@ -1,11 +1,14 @@
 package org.wahlzeit.model;
 
+import com.googlecode.objectify.annotation.Subclass;
+
+@Subclass
 public class PizzaPhoto extends Photo{
 	public enum PizzaSize{SMALL, MEDIUM, LARGE};
 	public enum PizzaShape{CIRCULAR, RECTANGULAR};
 	
-	public PizzaSize size;
-	public PizzaShape shape;
+	private PizzaSize size;
+	private PizzaShape shape;
 
 	/**
 	 * @methodtype constructor
@@ -37,7 +40,7 @@ public class PizzaPhoto extends Photo{
 	/**
 	 * @methodtype constructor, uses default attributes for null parameter
 	 */
-	public PizzaPhoto(PhotoId myId, Location loaction, PizzaSize size, PizzaShape shape) {
+	public PizzaPhoto(PhotoId myId, Location location, PizzaSize size, PizzaShape shape) {
 		if(null == myId) {
 			id = PhotoId.getNextId();
 		}else {

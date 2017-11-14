@@ -9,6 +9,14 @@ public class PizzaPhotoFactory extends PhotoFactory{
 
 	private static final Logger log = Logger.getLogger(PizzaPhotoFactory.class.getName());
 	
+	
+	/**
+	 *
+	 */
+	protected PizzaPhotoFactory() {
+		// do nothing
+	}
+	
 	/**
 	 * Public singleton access method.
 	 */
@@ -60,14 +68,9 @@ public class PizzaPhotoFactory extends PhotoFactory{
 		return new PizzaPhoto(id, loc, size, shape);
 	}
 	
-
-	/*
-	 * copied from PhotoFactory
-	 */
-	public PizzaPhoto loadPhoto(Photo id) {
+	public Photo loadPhoto(PhotoId id) {
 		return null;
 	}
-	
 	
 	
 	
