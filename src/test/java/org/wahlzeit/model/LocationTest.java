@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.Before;
 
-
+//TODO fix and adapt tests
 public class LocationTest {
 	private Coordinate coord;
 	private Location locA;

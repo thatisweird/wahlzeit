@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+//TODO fix and adapt tests
+
 public class CoordinateTest {
 	private Coordinate acoord;
 	private Coordinate bcoord;
