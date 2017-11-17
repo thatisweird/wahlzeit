@@ -14,7 +14,7 @@ import com.googlecode.objectify.annotation.Subclass;
 
 public class PizzaPhotoManagerTest{
 	
-	private PizzaPhotoManager manager;
+	private PhotoManager manager;
 	private Photo photoA;
 	private PizzaPhoto pizzaPhotoA;
 
@@ -61,7 +61,7 @@ public class PizzaPhotoManagerTest{
 			e.printStackTrace();
 			fail();
 		}
-		assertNotNull(manager.getInstance().getPhoto(pizzaPhotoA.getId()));
+		assertNotNull(PhotoManager.getInstance().getPhoto(pizzaPhotoA.getId()));
 	}
 	
 	@Test(expected = IllegalStateException.class)

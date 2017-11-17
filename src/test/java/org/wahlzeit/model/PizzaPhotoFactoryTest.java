@@ -10,23 +10,13 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class PizzaPhotoFactoryTest {
-
-	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
-			new LocalDatastoreServiceTestConfig().setDefaultHighRepJobPolicyUnappliedJobPercentage(0));
-
 	PizzaPhotoFactory factoryA;
 	PhotoFactory factoryB;
 	
 	@Before
 	public void init() {
-		helper.setUp();
 		factoryA = new PizzaPhotoFactory();
 		factoryB = PizzaPhotoFactory.getInstance();
-	}
-
-	@After
-	public void tearDown() {
-		helper.tearDown();
 	}
 
 	@Test
@@ -34,7 +24,7 @@ public class PizzaPhotoFactoryTest {
 		assertNotNull(factoryA);
 		assertNotNull(factoryB);
 		
-		//assertTrue(factoryB instanceof PizzaPhotoFactory);
+		assertTrue(factoryB instanceof PizzaPhotoFactory);
 		assertTrue(factoryA instanceof PizzaPhotoFactory);
 	}
 

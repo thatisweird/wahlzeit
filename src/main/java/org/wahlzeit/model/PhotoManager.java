@@ -1,5 +1,4 @@
-/*
- * Copyright (c) 2006-2009 by Dirk Riehle, http://dirkriehle.com
+/* * Copyright (c) 2006-2009 by Dirk Riehle, http://dirkriehle.com
  *
  * This file is part of the Wahlzeit photo rating application.
  *
@@ -49,7 +48,7 @@ public class PhotoManager extends ObjectManager {
 	 * replaced the final instance with an extended version
 	 */
 	//protected static final PhotoManager instance = new PhotoManager();
-	protected static final PizzaPhotoManager instance = new PizzaPhotoManager();
+	protected static final PhotoManager instance = new PizzaPhotoManager();
 
 	private static final Logger log = Logger.getLogger(PhotoManager.class.getName());
 
