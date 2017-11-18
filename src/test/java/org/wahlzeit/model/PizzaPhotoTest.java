@@ -29,7 +29,6 @@ public class PizzaPhotoTest {
 	// https://cloud.google.com/appengine/docs/standard/java/tools/localunittesting/javadoc/com/google/appengine/tools/development/testing/LocalServiceTestHelper
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
 			new LocalDatastoreServiceTestConfig().setDefaultHighRepJobPolicyUnappliedJobPercentage(0));
-	// private DatastoreService datastore;
 
 	/*
 	 * a bit of an overkill at this point but the test will probably be extended in the future

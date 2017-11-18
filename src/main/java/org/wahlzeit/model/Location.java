@@ -7,7 +7,7 @@ public class Location {
 	 * @methodtype constructor
 	 */
 	public Location(){
-		coordinate = new Coordinate();
+		coordinate = new CartesianCoordinate();
 	}
 	
 	/**
@@ -16,7 +16,7 @@ public class Location {
 	public Location(Coordinate coordinate){
 		this.coordinate = coordinate;
 		if(null == this.coordinate) {
-			this.coordinate = new Coordinate();
+			this.coordinate = new CartesianCoordinate();
 		}
 	}
 

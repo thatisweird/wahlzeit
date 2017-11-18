@@ -20,13 +20,14 @@
 
 package org.wahlzeit.model;
 
+import java.lang.Math;
+
 public class CartesianCoordinate implements Coordinate{
 	
 	private double x;
 	private double y;
 	private double z;
 	
-	static private double EPSILON = 0.00000001; 
 	/**
 	 * @methodtype constructor
 	 */
@@ -57,14 +58,19 @@ public class CartesianCoordinate implements Coordinate{
 	
 	@Override
 	public SphericCoordinate asSphericCoordinate(){
-		//TODO
-		return null;
+		double r = Math.sqrt(Math.pow(x, 2) + Math.pow(this.y, 2) + Math.pow(this.z, 2));
+		double lati = Math.acos(this.z / r);
+		double longi = Math.atan2(y, x);
+		return new SphericCoordinate(r, longi, lati);
 	}
 	
+	/*
+	 * use the distance calculation in the SphericCoordinate class
+	 */
 	@Override
 	public double getSphericDistance(Coordinate target){
-		//TODO
-		return 0.0;
+		SphericCoordinate a = this.asSphericCoordinate();
+		return a.getSphericDistance(target);
 	}	
 
 	/**
@@ -77,18 +83,18 @@ public class CartesianCoordinate implements Coordinate{
 			//return Double.POSITIVE_INFINITY;
 		}
 
-		if (isEqual(target)) {
+		if (this.isEqual(target)) {
 			return 0.0;
 		}
 		
 		CartesianCoordinate carTarget = target.asCartesianCoordinate();
 
-		double tmp = 0;
-		tmp += Math.pow((carTarget.getX() - this.x), 2.0);
-		tmp += Math.pow((carTarget.getY() - this.y), 2.0);
-		tmp += Math.pow((carTarget.getZ() - this.z), 2.0);
+		double res = 0;
+		res += Math.pow((carTarget.getX() - this.x), 2.0);
+		res += Math.pow((carTarget.getY() - this.y), 2.0);
+		res += Math.pow((carTarget.getZ() - this.z), 2.0);
 
-		return Math.sqrt(tmp);
+		return Math.sqrt(res);
 	}
 	
 	/**
@@ -200,6 +206,12 @@ public class CartesianCoordinate implements Coordinate{
 		res = prime*res + Double.hashCode(this.z);
 		
 		return res;
+	}
+	
+	@Override
+	public String toString() {
+		String s = "x: " + this.x + " y: " + this.y + " z: " + this.z;
+		return s;
 	}
 
 }
