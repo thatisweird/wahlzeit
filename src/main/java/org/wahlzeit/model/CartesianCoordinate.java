@@ -22,12 +22,12 @@ package org.wahlzeit.model;
 
 import java.lang.Math;
 
-public class CartesianCoordinate implements Coordinate{
-	
+public class CartesianCoordinate extends AbstractCoordinate {
+
 	private double x;
 	private double y;
 	private double z;
-	
+
 	/**
 	 * @methodtype constructor
 	 */
@@ -45,65 +45,28 @@ public class CartesianCoordinate implements Coordinate{
 		this.y = y;
 		this.z = z;
 	}
-	
+
 	@Override
-	public CartesianCoordinate asCartesianCoordinate(){
+	public CartesianCoordinate asCartesianCoordinate() {
 		return this;
 	}
-	
+
 	@Override
-	public double getCartesianDistance(Coordinate target){
-		return this.getDistance(target);
-	}
-	
-	@Override
-	public SphericCoordinate asSphericCoordinate(){
-		double r = Math.sqrt(Math.pow(x, 2) + Math.pow(this.y, 2) + Math.pow(this.z, 2));
+	public SphericCoordinate asSphericCoordinate() {
+		double r = Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2) + Math.pow(this.z, 2));
 		double lati = Math.acos(this.z / r);
-		double longi = Math.atan2(y, x);
+		double longi = Math.atan2(this.y, this.x);
 		return new SphericCoordinate(r, longi, lati);
 	}
-	
-	/*
-	 * use the distance calculation in the SphericCoordinate class
-	 */
-	@Override
-	public double getSphericDistance(Coordinate target){
-		SphericCoordinate a = this.asSphericCoordinate();
-		return a.getSphericDistance(target);
-	}	
 
 	/**
-	 * calculates the euclidian distance between this coordinate and the target
-	 */
-	public double getDistance(Coordinate target) {
-		if (null == target) {
-			throw new IllegalArgumentException("passed target parameter must not be null");
-			//might be another option
-			//return Double.POSITIVE_INFINITY;
-		}
-
-		if (this.isEqual(target)) {
-			return 0.0;
-		}
-		
-		CartesianCoordinate carTarget = target.asCartesianCoordinate();
-
-		double res = 0;
-		res += Math.pow((carTarget.getX() - this.x), 2.0);
-		res += Math.pow((carTarget.getY() - this.y), 2.0);
-		res += Math.pow((carTarget.getZ() - this.z), 2.0);
-
-		return Math.sqrt(res);
-	}
-	
-	/**
-	 * compares this coordinate values with the target's ones, up to an accuracy of delta
-	 * assumptions NaN != NaN, INFINITY != INFINITY, +0.0 == -0.0
+	 * compares this coordinate values with the target's ones, up to an accuracy of
+	 * delta assumptions NaN != NaN, INFINITY != INFINITY, +0.0 == -0.0
+	 * 
 	 * @param other
 	 * @return
 	 */
-
+	@Override
 	public boolean isEqual(Coordinate other) {
 		if (null == other) {
 			return false;
@@ -111,17 +74,17 @@ public class CartesianCoordinate implements Coordinate{
 		if (this == other) {
 			return true;
 		}
-		
+
 		CartesianCoordinate carOther = other.asCartesianCoordinate();
-		
-		if (Math.abs(this.x - carOther.getX()) <= CartesianCoordinate.EPSILON 
+
+		if (Math.abs(this.x - carOther.getX()) <= CartesianCoordinate.EPSILON
 				&& Math.abs(this.y - carOther.getY()) <= CartesianCoordinate.EPSILON
 				&& Math.abs(this.z - carOther.getZ()) <= CartesianCoordinate.EPSILON) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @methodtype get
 	 */
@@ -173,41 +136,21 @@ public class CartesianCoordinate implements Coordinate{
 		this.z = z;
 	}
 
-
-
 	/**
-	 * equals forwarded to isEqual
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (null == obj) {
-			return false;
-		}
-		if (this == obj) {
-			return true;
-		}
-		if(!(obj instanceof Coordinate)) {
-			return false;
-		}
-		
-		return isEqual((Coordinate) obj);
-	}
-	
-	/**
-	 * generates a hash code for a coordinate object
-	 * does not address the double rounding error problem, still more accurate than the standard hashCode method
+	 * generates a hash code for a coordinate object does not address the double
+	 * rounding error problem, still more accurate than the standard hashCode method
 	 */
 	@Override
 	public int hashCode() {
 		final int prime = 41;
 		int res = 1;
-		res = prime*res + Double.hashCode(this.x);
-		res = prime*res + Double.hashCode(this.y);
-		res = prime*res + Double.hashCode(this.z);
-		
+		res = prime * res + Double.hashCode(this.x);
+		res = prime * res + Double.hashCode(this.y);
+		res = prime * res + Double.hashCode(this.z);
+
 		return res;
 	}
-	
+
 	@Override
 	public String toString() {
 		String s = "x: " + this.x + " y: " + this.y + " z: " + this.z;

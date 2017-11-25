@@ -22,7 +22,7 @@ package org.wahlzeit.model;
 
 
 interface Coordinate {
-	static final double EPSILON = 0.00000001; 
+	static final double EPSILON = 0.1e-8; 
 
 	public CartesianCoordinate asCartesianCoordinate();
 	public double getCartesianDistance(Coordinate target);

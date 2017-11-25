@@ -113,22 +113,42 @@ public class CoordinateTest {
 
 	@Test
 	public void equalsCartesianTests() {
-		assertTrue(carCoordA.isEqual(carCoordA));
-		assertFalse(carCoordA.isEqual(null));
-		assertFalse(carCoordA.isEqual(spherCoordA));
+		assertTrue(carCoordA.equals(carCoordA));
+		assertFalse(carCoordA.equals(null));
+		assertFalse(carCoordA.equals(spherCoordA));
 		
 		carCoordA.asCartesianCoordinate().setXYZ(Double.NaN, 0.0, 0.0);
 		carCoordB.asCartesianCoordinate().setXYZ(0.0/0.0, 0.0, 0.0);
-		assertFalse(carCoordA.isEqual(spherCoordA));
+		assertFalse(carCoordA.equals(carCoordB));
 		
 		carCoordA = new CartesianCoordinate(Double.POSITIVE_INFINITY, 0.0, 0.0);
 		carCoordB = new CartesianCoordinate(1.0/0.0, 0.0, 0.0);
-		assertFalse(carCoordA.isEqual(spherCoordA));
+		assertFalse(carCoordA.equals(carCoordB));
 		
 		carCoordA = new CartesianCoordinate(0.0, 0.0, 0.0);
 		carCoordB = new CartesianCoordinate(-0.0, -0.0, -0.0);
-		assertTrue(carCoordA.isEqual(carCoordB));
+		assertTrue(carCoordA.equals(carCoordB));
 	}
+
+	@Test
+	public void equalsSphercalTests() {
+		assertTrue(spherCoordA.equals(spherCoordA));
+		assertFalse(spherCoordA.equals(null));
+		assertFalse(spherCoordA.equals(carCoordA));
+		
+		spherCoordA.asCartesianCoordinate().setXYZ(Double.NaN, 0.0, 0.0);
+		spherCoordB.asCartesianCoordinate().setXYZ(0.0/0.0, 0.0, 0.0);
+		assertFalse(spherCoordA.equals(spherCoordB));
+		
+		spherCoordA = new SphericCoordinate(Double.POSITIVE_INFINITY, 0.0, 0.0);
+		spherCoordB = new SphericCoordinate(1.0/0.0, 0.0, 0.0);
+		assertFalse(spherCoordA.equals(spherCoordB));
+		
+		spherCoordA = new SphericCoordinate(0.0, 0.0, 0.0);
+		spherCoordB = new SphericCoordinate(-0.0, -0.0, -0.0);
+		assertTrue(spherCoordA.equals(spherCoordB));
+	}
+	
 	
 	@Test
 	public void equalsConversionSCSTests() {
