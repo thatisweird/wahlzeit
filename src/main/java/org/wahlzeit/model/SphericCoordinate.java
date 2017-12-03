@@ -32,6 +32,8 @@ public class SphericCoordinate extends AbstractCoordinate{
 		radius = 0.0;
 		longitude = 0.0;
 		latitude = 0.0;
+
+		assertClassInvariatns();
 	}
 
 	public SphericCoordinate(double radius, double longitude, double latitude) {
@@ -48,23 +50,26 @@ public class SphericCoordinate extends AbstractCoordinate{
 		if (this.radius < Coordinate.EPSILON) {
 			this.longitude = this.latitude = 0.0;
 		}
+		
+		assertClassInvariatns();
 	}
 
-	@Override
 	public CartesianCoordinate asCartesianCoordinate() {
+		assertClassInvariatns();
+
 		double x = this.radius * Math.sin(latitude) * Math.cos(longitude);
 		double y = this.radius * Math.sin(latitude) * Math.sin(longitude);
 		double z = this.radius * Math.cos(latitude);
 
+		assertClassInvariatns();
+		
 		return new CartesianCoordinate(x, y, z);
 	}
 
-	@Override
 	public SphericCoordinate asSphericCoordinate() {
 		return this;
 	}
 
-	@Override
 	public boolean isEqual(Coordinate other) {
 		if (null == other) {
 			return false;
@@ -103,8 +108,12 @@ public class SphericCoordinate extends AbstractCoordinate{
 	}
 
 	public void setLatitude(double latitude) {
+		assertClassInvariatns();
+
 		this.latitude = latitude < 0.0 ? latitude % 180 + 180.0
 				: Math.abs(latitude - 180.0) < Coordinate.EPSILON ? 180.0 : latitude % 180;
+
+		assertClassInvariatns();
 	}
 
 	public double getLongitude() {
@@ -112,11 +121,15 @@ public class SphericCoordinate extends AbstractCoordinate{
 	}
 
 	public void setLongitude(double longitude) {
+		assertClassInvariatns();
+
 		this.longitude = longitude < 0.0 ? longitude % 360 + 360.0 : longitude % 360;
 
 		if (this.longitude < Coordinate.EPSILON || Math.abs(this.longitude - 180) < Coordinate.EPSILON) {
 			this.latitude = 0.0;
 		}
+
+		assertClassInvariatns();
 	}
 
 	public double getRadius() {
@@ -124,22 +137,40 @@ public class SphericCoordinate extends AbstractCoordinate{
 	}
 
 	public void setRadius(double radius) {
+		assertClassInvariatns();
+
 		this.radius = Math.abs(radius);
 		if (this.radius < Coordinate.EPSILON) {
 			this.longitude = this.latitude = 0.0;
 		}
+		
+		assertClassInvariatns();
 	}
 
 	public void setRLL(double radius, double longitude, double latitude) {
+		assertClassInvariatns();
+		
 		this.setRadius(radius);
 		this.setLongitude(longitude);
 		this.setLatitude(latitude);
+
+		assertClassInvariatns();
 	}
 
 	@Override
 	public String toString() {
-		String s = "Radius: " + this.radius + " Longitutde: " + this.longitude + " Latitude: " + this.latitude;
-		return s;
+		return "Radius: " + this.radius + " Longitutde: " + this.longitude + " Latitude: " + this.latitude;
+	}
+	
+	private void assertClassInvariatns(){
+		String error = "SphericCoordiante class invariant violation: ";
+		assert this.radius >= 0.0 : error + "radius must be >= 0";
+		assert this.longitude >= 0.0 && this.longitude < 360.0 : error + "longitude must be within [0.0, 360.0)";
+		assert this.latitude  >= 0.0 && this.latitude <= 180.0 : error + "latitude must be within [0.0, 180.0";
+
+		assert !Double.isNaN(radius) : error + "radius must not be NaN";
+		assert !Double.isNaN(longitude) : error + "latitude must not be NaN";
+		assert !Double.isNaN(latitude) : error + "longitude must not be NaN";
 	}
 
 }

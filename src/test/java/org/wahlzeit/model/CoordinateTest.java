@@ -117,10 +117,12 @@ public class CoordinateTest {
 		assertFalse(carCoordA.equals(null));
 		assertFalse(carCoordA.equals(spherCoordA));
 		
+		/*
 		carCoordA.asCartesianCoordinate().setXYZ(Double.NaN, 0.0, 0.0);
 		carCoordB.asCartesianCoordinate().setXYZ(0.0/0.0, 0.0, 0.0);
 		assertFalse(carCoordA.equals(carCoordB));
-		
+		*/
+
 		carCoordA = new CartesianCoordinate(Double.POSITIVE_INFINITY, 0.0, 0.0);
 		carCoordB = new CartesianCoordinate(1.0/0.0, 0.0, 0.0);
 		assertFalse(carCoordA.equals(carCoordB));
@@ -136,9 +138,11 @@ public class CoordinateTest {
 		assertFalse(spherCoordA.equals(null));
 		assertFalse(spherCoordA.equals(carCoordA));
 		
+		/*
 		spherCoordA.asCartesianCoordinate().setXYZ(Double.NaN, 0.0, 0.0);
 		spherCoordB.asCartesianCoordinate().setXYZ(0.0/0.0, 0.0, 0.0);
 		assertFalse(spherCoordA.equals(spherCoordB));
+		*/
 		
 		spherCoordA = new SphericCoordinate(Double.POSITIVE_INFINITY, 0.0, 0.0);
 		spherCoordB = new SphericCoordinate(1.0/0.0, 0.0, 0.0);

@@ -25,13 +25,9 @@ public abstract class AbstractCoordinate implements Coordinate {
 	/*
 	 * calculates the euclidean distance between this Coordinate and the given target Coordinate 
 	 */
-	@Override
 	public double getCartesianDistance(Coordinate target) {
-		if (null == target) {
-			throw new IllegalArgumentException("passed target parameter must not be null");
-			// might be another option
-			// return Double.POSITIVE_INFINITY;
-		}
+	
+		assertIsNotNullArgument(target);
 
 		if (this.isEqual(target)) {
 			return 0.0;
@@ -44,8 +40,12 @@ public abstract class AbstractCoordinate implements Coordinate {
 		res += Math.pow((carTarget.getX() - carStart.getX()), 2.0);
 		res += Math.pow((carTarget.getY() - carStart.getY()), 2.0);
 		res += Math.pow((carTarget.getZ() - carStart.getZ()), 2.0);
+		
+		double dist = Math.sqrt(res);
+		
+		assertIsValidDistance(dist);
 
-		return Math.sqrt(res);
+		return dist;
 	}
 
 	/*
@@ -53,13 +53,9 @@ public abstract class AbstractCoordinate implements Coordinate {
 	 * coordinates https://www.movable-type.co.uk/scripts/latlong.html here
 	 * haversine is used
 	 */
-	@Override
 	public double getSphericDistance(Coordinate target) {
-		if (null == target) {
-			throw new IllegalArgumentException("passed target parameter must not be null");
-			// might be another option
-			// return Double.POSITIVE_INFINITY;
-		}
+	
+		assertIsNotNullArgument(target);
 
 		if (this.isEqual(target)) {
 			return 0.0;
@@ -76,14 +72,17 @@ public abstract class AbstractCoordinate implements Coordinate {
 		double a = Math.sin(deltaPhi / 2.0) * Math.sin(deltaPhi / 2.0)
 				+ Math.cos(phi1) * Math.cos(phi2) * Math.sin(deltaLam / 2.0) * Math.sin(deltaLam / 2.0);
 		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1.0 - a));
-
-		return Math.max(spherStart.getRadius(), spherTarget.getRadius()) * c;
+		
+		double dist = Math.max(spherStart.getRadius(), spherTarget.getRadius()) * c;
+		
+		assertIsValidDistance(dist);
+		
+		return dist;
 	}
 
 	/*
 	 * for all Coordinate implementations getDistance returns the direct distance between two CartesianCoordinates
 	 */
-	@Override
 	public double getDistance(Coordinate target) {
 		return this.getCartesianDistance(target);
 	}
@@ -105,14 +104,17 @@ public abstract class AbstractCoordinate implements Coordinate {
 
 		return isEqual((Coordinate) obj);
 	}
-
+	
+	protected void assertIsNotNullArgument(Object obj) {
+			if (null == obj)
+				throw new IllegalArgumentException("passed argument must not be null");
+	}
+	
+	protected void assertIsValidDistance(Double dist) {
+		if (0.0 > dist)
+			throw new RuntimeException("The calculated distance should be positive but is" + dist);
+	}
+	
 	@Override
-	public abstract CartesianCoordinate asCartesianCoordinate();
-
-	@Override
-	public abstract SphericCoordinate asSphericCoordinate();
-
-	@Override
-	public abstract boolean isEqual(Coordinate coord);
-
+	public abstract int hashCode();
 }

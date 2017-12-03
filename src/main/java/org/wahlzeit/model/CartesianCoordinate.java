@@ -35,6 +35,8 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		x = 0.0;
 		y = 0.0;
 		z = 0.0;
+
+		assertClassInvariatns();
 	}
 
 	/**
@@ -44,18 +46,26 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		this.x = x;
 		this.y = y;
 		this.z = z;
+
+		assertClassInvariatns();
 	}
 
-	@Override
 	public CartesianCoordinate asCartesianCoordinate() {
 		return this;
 	}
 
-	@Override
 	public SphericCoordinate asSphericCoordinate() {
+		assertClassInvariatns();
+
 		double r = Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2) + Math.pow(this.z, 2));
+		if(r <= EPSILON) {
+			return new SphericCoordinate(0, 0, 0);
+		}
 		double lati = Math.acos(this.z / r);
 		double longi = Math.atan2(this.y, this.x);
+
+		assertClassInvariatns();
+
 		return new SphericCoordinate(r, longi, lati);
 	}
 
@@ -66,8 +76,9 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 * @param other
 	 * @return
 	 */
-	@Override
 	public boolean isEqual(Coordinate other) {
+		assertClassInvariatns();
+	
 		if (null == other) {
 			return false;
 		}
@@ -77,12 +88,15 @@ public class CartesianCoordinate extends AbstractCoordinate {
 
 		CartesianCoordinate carOther = other.asCartesianCoordinate();
 
+		boolean retval = false;
 		if (Math.abs(this.x - carOther.getX()) <= CartesianCoordinate.EPSILON
 				&& Math.abs(this.y - carOther.getY()) <= CartesianCoordinate.EPSILON
 				&& Math.abs(this.z - carOther.getZ()) <= CartesianCoordinate.EPSILON) {
-			return true;
+			retval = true;
 		}
-		return false;
+
+		assertClassInvariatns();
+		return retval;
 	}
 
 	/**
@@ -96,7 +110,11 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 * @methodtype set
 	 */
 	public void setX(double x) {
+		assertClassInvariatns();
+
 		this.x = x;
+
+		assertClassInvariatns();
 	}
 
 	/**
@@ -110,7 +128,11 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 * @methodtype set
 	 */
 	public void setY(double y) {
+		assertClassInvariatns();
+
 		this.y = y;
+
+		assertClassInvariatns();
 	}
 
 	/**
@@ -124,16 +146,25 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 * @methodtype set
 	 */
 	public void setZ(double z) {
+		assertClassInvariatns();
+
 		this.z = z;
+
+		assertClassInvariatns();
 	}
 
 	/**
 	 * @methodtype set
 	 */
 	public void setXYZ(double x, double y, double z) {
+		
+		assertClassInvariatns();
+
 		this.x = x;
 		this.y = y;
 		this.z = z;
+
+		assertClassInvariatns();
 	}
 
 	/**
@@ -142,11 +173,15 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 */
 	@Override
 	public int hashCode() {
+		assertClassInvariatns();
+
 		final int prime = 41;
 		int res = 1;
 		res = prime * res + Double.hashCode(this.x);
 		res = prime * res + Double.hashCode(this.y);
 		res = prime * res + Double.hashCode(this.z);
+
+		assertClassInvariatns();
 
 		return res;
 	}
@@ -155,6 +190,13 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	public String toString() {
 		String s = "x: " + this.x + " y: " + this.y + " z: " + this.z;
 		return s;
+	}
+
+	private void assertClassInvariatns(){
+		String error = "CartesianCoordiante class invariant violation: ";
+		assert !Double.isNaN(this.x) : error + "x must not be NaN";
+		assert !Double.isNaN(this.y) : error + "y must not be NaN";
+		assert !Double.isNaN(this.z) : error + "z must not be NaN";
 	}
 
 }
