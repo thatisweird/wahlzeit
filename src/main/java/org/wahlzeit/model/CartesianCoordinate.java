@@ -24,6 +24,8 @@ import java.lang.Math;
 
 public class CartesianCoordinate extends AbstractCoordinate {
 
+	String className = this.getClass().getName();
+
 	private double x;
 	private double y;
 	private double z;
@@ -50,11 +52,13 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		assertClassInvariatns();
 	}
 
-	public CartesianCoordinate asCartesianCoordinate() {
+	public CartesianCoordinate asCartesianCoordinate() throws CoordinateException{
+		assertClassInvariatns();
+
 		return this;
 	}
 
-	public SphericCoordinate asSphericCoordinate() {
+	public SphericCoordinate asSphericCoordinate() throws CoordinateException{
 		assertClassInvariatns();
 
 		double r = Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2) + Math.pow(this.z, 2));
@@ -110,6 +114,10 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 * @methodtype set
 	 */
 	public void setX(double x) {
+		String error = "In " + className + "precondition violation: ";
+		if(!isValidCoordinateAttribute(x)) {
+			throw new IllegalArgumentException(error + "x was: " + x + " but must be finite");
+		}
 		assertClassInvariatns();
 
 		this.x = x;
@@ -128,6 +136,10 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 * @methodtype set
 	 */
 	public void setY(double y) {
+		String error = "In " + className + "precondition violation: ";
+		if(!isValidCoordinateAttribute(y)) {
+			throw new CoordinateException(error + "y was: " + y + " but must be finite");
+		}
 		assertClassInvariatns();
 
 		this.y = y;
@@ -146,6 +158,10 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 * @methodtype set
 	 */
 	public void setZ(double z) {
+		String error = "In " + className + "precondition violation: ";
+		if(!isValidCoordinateAttribute(z)) {
+			throw new CoordinateException(error + "z was: " + z + " but must be finite");
+		}
 		assertClassInvariatns();
 
 		this.z = z;
@@ -157,12 +173,11 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 * @methodtype set
 	 */
 	public void setXYZ(double x, double y, double z) {
-		
 		assertClassInvariatns();
 
-		this.x = x;
-		this.y = y;
-		this.z = z;
+		setX(x);
+		setY(y);
+		setZ(z);
 
 		assertClassInvariatns();
 	}
@@ -192,11 +207,21 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		return s;
 	}
 
-	private void assertClassInvariatns(){
-		String error = "CartesianCoordiante class invariant violation: ";
-		assert !Double.isNaN(this.x) : error + "x must not be NaN";
-		assert !Double.isNaN(this.y) : error + "y must not be NaN";
-		assert !Double.isNaN(this.z) : error + "z must not be NaN";
+	void assertClassInvariatns(){
+		String error = "In " + className + "class invariant violation: ";
+		if(!isValidCoordinateAttribute(this.x)) {
+			throw new CoordinateException(error + "x was: " + this.x + " but must be finite");
+		}
+		if(!isValidCoordinateAttribute(this.y)) {
+			throw new CoordinateException(error + "y was " + this.y + "but must be finite");
+		}
+		if(!isValidCoordinateAttribute(this.z)) {
+			throw new CoordinateException(error + "z was " + this.z + "but must be finite");
+		}
+	}
+	
+	private boolean isValidCoordinateAttribute(Double ca) {
+		return Double.isFinite(ca);
 	}
 
 }

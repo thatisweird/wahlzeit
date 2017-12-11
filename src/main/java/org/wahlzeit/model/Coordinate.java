@@ -28,6 +28,6 @@ interface Coordinate {
 	public double getCartesianDistance(Coordinate target);
 	public SphericCoordinate asSphericCoordinate();
 	public double getSphericDistance(Coordinate target);
-	public double getDistance(Coordinate target);
+	public double getDistance(Coordinate target) throws IllegalArgumentException;
 	public boolean isEqual(Coordinate coord);
 }

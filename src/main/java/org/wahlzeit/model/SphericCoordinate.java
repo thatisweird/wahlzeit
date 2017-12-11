@@ -21,6 +21,8 @@
 package org.wahlzeit.model;
 
 public class SphericCoordinate extends AbstractCoordinate{
+	
+	String className = this.getClass().getName();
 
 	// r >= 0, longitude in [0°, 360°), latitude [0°, 180°]
 
@@ -37,7 +39,7 @@ public class SphericCoordinate extends AbstractCoordinate{
 	}
 
 	public SphericCoordinate(double radius, double longitude, double latitude) {
-		this.radius = Math.abs(radius);
+		this.radius = radius;
 		this.longitude = longitude < 0.0 ? longitude % 360 + 360.0 : longitude % 360;
 		this.latitude = latitude < 0.0 ? latitude % 180 + 180.0
 				: Math.abs(latitude - 180.0) < Coordinate.EPSILON ? 180.0 : latitude % 180;
@@ -54,7 +56,7 @@ public class SphericCoordinate extends AbstractCoordinate{
 		assertClassInvariatns();
 	}
 
-	public CartesianCoordinate asCartesianCoordinate() {
+	public CartesianCoordinate asCartesianCoordinate() throws CoordinateException{
 		assertClassInvariatns();
 
 		double x = this.radius * Math.sin(latitude) * Math.cos(longitude);
@@ -66,7 +68,9 @@ public class SphericCoordinate extends AbstractCoordinate{
 		return new CartesianCoordinate(x, y, z);
 	}
 
-	public SphericCoordinate asSphericCoordinate() {
+	public SphericCoordinate asSphericCoordinate() throws CoordinateException{
+		assertClassInvariatns();
+
 		return this;
 	}
 
@@ -108,6 +112,11 @@ public class SphericCoordinate extends AbstractCoordinate{
 	}
 
 	public void setLatitude(double latitude) {
+		String error = "In " + className + "pre condition violation: ";
+		if(!isValidLatitude(latitude)){
+			throw new CoordinateException(error + "the received latitude was " + latitude + " must be a finite double within [0.0, 180.0)");
+		}
+
 		assertClassInvariatns();
 
 		this.latitude = latitude < 0.0 ? latitude % 180 + 180.0
@@ -121,6 +130,10 @@ public class SphericCoordinate extends AbstractCoordinate{
 	}
 
 	public void setLongitude(double longitude) {
+		String error = "In " + className + "pre condition violation: ";
+		if(!isValidLongitude(longitude)){
+			throw new CoordinateException(error + "the received longitude was: " + longitude + " must be a finite double within [0.0, 360.0)");
+		}
 		assertClassInvariatns();
 
 		this.longitude = longitude < 0.0 ? longitude % 360 + 360.0 : longitude % 360;
@@ -137,12 +150,19 @@ public class SphericCoordinate extends AbstractCoordinate{
 	}
 
 	public void setRadius(double radius) {
+		String error = "In " + className + "pre condition violation: ";
+		if(!isValidRadius(radius)) {
+			throw new IllegalArgumentException(error + "the received radius was: " + radius + " but must be a finite double >= 0.0");
+		}
+
 		assertClassInvariatns();
 
-		this.radius = Math.abs(radius);
+		this.radius = radius;
+
 		if (this.radius < Coordinate.EPSILON) {
 			this.longitude = this.latitude = 0.0;
 		}
+		
 		
 		assertClassInvariatns();
 	}
@@ -162,15 +182,29 @@ public class SphericCoordinate extends AbstractCoordinate{
 		return "Radius: " + this.radius + " Longitutde: " + this.longitude + " Latitude: " + this.latitude;
 	}
 	
-	private void assertClassInvariatns(){
-		String error = "SphericCoordiante class invariant violation: ";
-		assert this.radius >= 0.0 : error + "radius must be >= 0";
-		assert this.longitude >= 0.0 && this.longitude < 360.0 : error + "longitude must be within [0.0, 360.0)";
-		assert this.latitude  >= 0.0 && this.latitude <= 180.0 : error + "latitude must be within [0.0, 180.0";
+	void assertClassInvariatns(){
+		String error = "In " + className + "class invariant violation: ";
+		if(!isValidRadius(this.radius)) {
+			throw new CoordinateException(error + "the raius must be a finite double >= 0.0");
+		}
+		if(!isValidLongitude(this.longitude)){
+			throw new CoordinateException(error + "the longitude must be a finite double within [0.0, 360.0)");
+		}
+		if(!isValidLatitude(this.latitude)){
+			throw new CoordinateException(error + "the latitude must be a finite double within [0.0, 180.0)");
+		}
+	}
+	 
+	private boolean isValidLongitude(double l) {
+		return(Double.isFinite(l) && l >= 0.0 && l < 360.0);
+	}
 
-		assert !Double.isNaN(radius) : error + "radius must not be NaN";
-		assert !Double.isNaN(longitude) : error + "latitude must not be NaN";
-		assert !Double.isNaN(latitude) : error + "longitude must not be NaN";
+	private boolean isValidLatitude(double l) {
+		return(Double.isFinite(l) && l  >= 0.0 && l <= 180.0);
+	}
+	
+	private boolean isValidRadius(double r) {
+		return (Double.isFinite(r) && r >= 0.0);
 	}
 
 }

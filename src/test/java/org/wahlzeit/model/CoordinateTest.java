@@ -34,12 +34,29 @@ public class CoordinateTest {
 		assertEquals(spherCoordA.asSphericCoordinate().getLatitude(), 51.510357, 0.01);
 		assertNotNull(spherCoordB);
 	}
+
+	@Test(expected = CoordinateException.class)
+	public void badNaNCartesianConstructorTest() {
+		carCoordA = new CartesianCoordinate(Double.NaN, 0, 0);
+	}
 	
+	@Test(expected = CoordinateException.class)
+	public void badInfiniyCartesianConstructorTest() {
+		carCoordA = new CartesianCoordinate(Double.NEGATIVE_INFINITY, 0, 0);
+	}
 	
-	
+	@Test(expected = CoordinateException.class)
+	public void badNaNSphericConstructorTest() {
+		spherCoordA = new SphericCoordinate(Double.NaN, 0, 0);
+	}	
+
+	@Test(expected = CoordinateException.class)
+	public void badInfiniySphericConstructorTest() {
+		spherCoordA = new SphericCoordinate(Double.NEGATIVE_INFINITY, 0, 0);
+	}
+
 	@Test
 	public void setGetCartesianTests() {
-
 		carCoordA.asCartesianCoordinate().setX(0.0);
 		assertTrue(0 == Double.compare(carCoordA.asCartesianCoordinate().getX(), 0.0));
 		carCoordA.asCartesianCoordinate().setY(0.0);
@@ -52,7 +69,18 @@ public class CoordinateTest {
 		assertTrue(0 == Double.compare(carCoordA.asCartesianCoordinate().getY(), 1.0));
 		assertTrue(0 == Double.compare(carCoordA.asCartesianCoordinate().getZ(), 1.0));
 	}
+	
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void badNaNSphericSetTest() {
+		carCoordA.asCartesianCoordinate().setX(Double.NaN);
+	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void badInfinitySphericSetTest() {
+		carCoordA.asCartesianCoordinate().setX(Double.NEGATIVE_INFINITY);
+	}
+	
 	@Test
 	public void setGetSphericTests() {
 
@@ -78,20 +106,31 @@ public class CoordinateTest {
 		assertEquals(spherCoordB.asSphericCoordinate().getLatitude(), 0.0, 0.001);
 		assertEquals(spherCoordB.asSphericCoordinate().getLongitude(), 0.0, 0.001);	
 	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void badNaNCartesianSetTest() {
+		carCoordA.asSphericCoordinate().setRadius(Double.NaN);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void badInfinityCartesianSetTest() {
+		carCoordA.asSphericCoordinate().setRadius(Double.NEGATIVE_INFINITY);
+	}
+	
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void nullShouldThrowExceptionCartesianTest() {
-		carCoordA.getDistance(null);
+		carCoordA.getCartesianDistance(null);
 	}	
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void nullShouldThrowExceptionSphericTest() {
-		spherCoordA.getDistance(null);
+		spherCoordA.getSphericDistance(null);
 	}
 
 	@Test
 	public void sphericDistanceTest() {
-		assertEquals(5897658.289, spherCoordA.getSphericDistance(spherCoordB), 0.001);
+		assertEquals(5897658.289, ((AbstractCoordinate) spherCoordA).getSphericDistance(spherCoordB), 0.001);
 	}
 	
 	@Test
@@ -102,9 +141,6 @@ public class CoordinateTest {
 		carCoordA.asCartesianCoordinate().setXYZ(1.0, 2.0, 3.0);
 		carCoordB.asCartesianCoordinate().setXYZ(1.0, 2.0, 3.0);
 		assertTrue(0 == Double.compare(carCoordA.getDistance(carCoordB), 0.0));
-		
-		carCoordA.asCartesianCoordinate().setXYZ(Double.POSITIVE_INFINITY, 2.0, 3.0);
-		assertTrue(0 == Double.compare(carCoordA.getDistance(spherCoordA), Double.POSITIVE_INFINITY));
 	}
 
 	/**
@@ -121,16 +157,17 @@ public class CoordinateTest {
 		carCoordA.asCartesianCoordinate().setXYZ(Double.NaN, 0.0, 0.0);
 		carCoordB.asCartesianCoordinate().setXYZ(0.0/0.0, 0.0, 0.0);
 		assertFalse(carCoordA.equals(carCoordB));
-		*/
 
 		carCoordA = new CartesianCoordinate(Double.POSITIVE_INFINITY, 0.0, 0.0);
 		carCoordB = new CartesianCoordinate(1.0/0.0, 0.0, 0.0);
 		assertFalse(carCoordA.equals(carCoordB));
+		*/
 		
 		carCoordA = new CartesianCoordinate(0.0, 0.0, 0.0);
 		carCoordB = new CartesianCoordinate(-0.0, -0.0, -0.0);
 		assertTrue(carCoordA.equals(carCoordB));
 	}
+
 
 	@Test
 	public void equalsSphercalTests() {
@@ -142,11 +179,11 @@ public class CoordinateTest {
 		spherCoordA.asCartesianCoordinate().setXYZ(Double.NaN, 0.0, 0.0);
 		spherCoordB.asCartesianCoordinate().setXYZ(0.0/0.0, 0.0, 0.0);
 		assertFalse(spherCoordA.equals(spherCoordB));
-		*/
 		
 		spherCoordA = new SphericCoordinate(Double.POSITIVE_INFINITY, 0.0, 0.0);
 		spherCoordB = new SphericCoordinate(1.0/0.0, 0.0, 0.0);
 		assertFalse(spherCoordA.equals(spherCoordB));
+		*/
 		
 		spherCoordA = new SphericCoordinate(0.0, 0.0, 0.0);
 		spherCoordB = new SphericCoordinate(-0.0, -0.0, -0.0);

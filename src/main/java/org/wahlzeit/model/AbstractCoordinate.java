@@ -25,9 +25,10 @@ public abstract class AbstractCoordinate implements Coordinate {
 	/*
 	 * calculates the euclidean distance between this Coordinate and the given target Coordinate 
 	 */
-	public double getCartesianDistance(Coordinate target) {
+	public double getCartesianDistance(Coordinate target) throws IllegalArgumentException, CoordinateException{
 	
 		assertIsNotNullArgument(target);
+		assertClassInvariatns();
 
 		if (this.isEqual(target)) {
 			return 0.0;
@@ -44,6 +45,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 		double dist = Math.sqrt(res);
 		
 		assertIsValidDistance(dist);
+		assertClassInvariatns();
 
 		return dist;
 	}
@@ -53,9 +55,10 @@ public abstract class AbstractCoordinate implements Coordinate {
 	 * coordinates https://www.movable-type.co.uk/scripts/latlong.html here
 	 * haversine is used
 	 */
-	public double getSphericDistance(Coordinate target) {
+	public double getSphericDistance(Coordinate target) throws IllegalArgumentException, CoordinateException{
 	
 		assertIsNotNullArgument(target);
+		assertClassInvariatns();
 
 		if (this.isEqual(target)) {
 			return 0.0;
@@ -76,6 +79,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 		double dist = Math.max(spherStart.getRadius(), spherTarget.getRadius()) * c;
 		
 		assertIsValidDistance(dist);
+		assertClassInvariatns();
 		
 		return dist;
 	}
@@ -83,7 +87,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 	/*
 	 * for all Coordinate implementations getDistance returns the direct distance between two CartesianCoordinates
 	 */
-	public double getDistance(Coordinate target) {
+	public double getDistance(Coordinate target) throws IllegalArgumentException, CoordinateException{
 		return this.getCartesianDistance(target);
 	}
 
@@ -105,16 +109,18 @@ public abstract class AbstractCoordinate implements Coordinate {
 		return isEqual((Coordinate) obj);
 	}
 	
-	protected void assertIsNotNullArgument(Object obj) {
+	protected void assertIsNotNullArgument(Object obj){
 			if (null == obj)
 				throw new IllegalArgumentException("passed argument must not be null");
 	}
 	
-	protected void assertIsValidDistance(Double dist) {
+	protected void assertIsValidDistance(Double dist){
 		if (0.0 > dist)
-			throw new RuntimeException("The calculated distance should be positive but is" + dist);
+			throw new CoordinateException("The calculated distance should be positive but was:	" + dist);
 	}
 	
 	@Override
 	public abstract int hashCode();
+	
+	abstract void assertClassInvariatns();
 }
