@@ -7,17 +7,17 @@ public class Location {
 	 * @methodtype constructor
 	 */
 	public Location(){
-		coordinate = new CartesianCoordinate();
+		this.coordinate = new CartesianCoordinate();
 	}
 	
 	/**
 	 * @methodtype constructor
 	 */
-	public Location(Coordinate coordinate){
-		this.coordinate = coordinate;
-		if(null == this.coordinate) {
-			this.coordinate = new CartesianCoordinate();
+	public Location(Coordinate coordinate) throws IllegalArgumentException{
+		if(null == coordinate) {
+			throw new IllegalArgumentException("the given Coordinate must not be null, you might use the default constructor without arguments");
 		}
+		this.coordinate = coordinate;
 	}
 
 	/**
@@ -30,7 +30,7 @@ public class Location {
 	/**
 	 * @methodtype set
 	 */
-	public void setCoordinate(Coordinate coordinate){
+	public void setCoordinate(Coordinate coordinate) throws IllegalArgumentException{
 		if (null == coordinate) {
 			throw new IllegalArgumentException("passed coordinate parameter must not be null");
 		}

@@ -24,10 +24,10 @@ package org.wahlzeit.model;
 interface Coordinate {
 	static final double EPSILON = 0.1e-8; 
 
-	public CartesianCoordinate asCartesianCoordinate();
-	public double getCartesianDistance(Coordinate target);
-	public SphericCoordinate asSphericCoordinate();
-	public double getSphericDistance(Coordinate target);
-	public double getDistance(Coordinate target) throws IllegalArgumentException;
+	public CartesianCoordinate asCartesianCoordinate() throws CoordinateException;
+	public double getCartesianDistance(Coordinate target) throws IllegalArgumentException, CoordinateException;
+	public SphericCoordinate asSphericCoordinate() throws CoordinateException;
+	public double getSphericDistance(Coordinate target) throws IllegalArgumentException, CoordinateException;
+	public double getDistance(Coordinate target) throws IllegalArgumentException, CoordinateException;
 	public boolean isEqual(Coordinate coord);
 }

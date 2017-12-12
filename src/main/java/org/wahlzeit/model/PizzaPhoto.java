@@ -51,8 +51,9 @@ public class PizzaPhoto extends Photo{
 	/**
 	 * @methodtype constructor
 	 */
-	public PizzaPhoto(PhotoId myId, Location location) {
+	public PizzaPhoto(PhotoId myId, Location location) throws IllegalArgumentException{
 		super(myId, location);
+
 		this.size = PizzaSize.SMALL;
 		this.shape = PizzaShape.CIRCULAR;
 	}
@@ -60,7 +61,11 @@ public class PizzaPhoto extends Photo{
 	/**
 	 * @methodtype constructor, uses default attributes for null parameter
 	 */
-	public PizzaPhoto(PhotoId myId, Location location, PizzaSize size, PizzaShape shape) {
+	public PizzaPhoto(PhotoId myId, Location location, PizzaSize size, PizzaShape shape) throws IllegalArgumentException{
+		if(null == location) {
+			throw new IllegalArgumentException("the given Location must not be null, you might use the default constructor without a location argument");
+		}
+
 		if(null == myId) {
 			id = PhotoId.getNextId();
 		}else {

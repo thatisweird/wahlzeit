@@ -16,7 +16,7 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class PizzaPhotoTest {
-	private Location loc;
+	private Location loc = new Location();
 
 	private PizzaPhoto pizzaPhotoA;
 	private PizzaPhoto pizzaPhotoB;
@@ -39,7 +39,6 @@ public class PizzaPhotoTest {
 		// datastore = DatastoreServiceFactory.getDatastoreService();
 
 		photoA = new Photo();
-		loc = new Location();
 		pizzaPhotoA = new PizzaPhoto();
 		pizzaPhotoB = new PizzaPhoto(PhotoId.getNextId());
 		pizzaPhotoC = new PizzaPhoto(PhotoId.getNextId(), loc);
@@ -72,15 +71,19 @@ public class PizzaPhotoTest {
 	}
 
 	@Test
-	public void testDefaultAttributes() {
+	public void defaultAttributesTest() {
 		assertEquals(pizzaPhotoD.getSize(), PizzaSize.LARGE);
 		assertEquals(pizzaPhotoD.getShape(), PizzaShape.RECTANGULAR);
 
-		pizzaPhotoA = new PizzaPhoto(null, null, null, null);
 		assertNotNull(pizzaPhotoA);
 		assertEquals(pizzaPhotoA.getSize(), PizzaSize.SMALL);
 		assertEquals(pizzaPhotoA.getShape(), PizzaShape.CIRCULAR);
 
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void badAttributesTest() {
+		pizzaPhotoA = new PizzaPhoto(null, null, null, null);
 	}
 
 }

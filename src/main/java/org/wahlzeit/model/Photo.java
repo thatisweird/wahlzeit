@@ -152,7 +152,10 @@ public class Photo extends DataObject {
 	/**
 	 * @methodtype constructor
 	 */
-	public Photo(PhotoId myId, Location loaction) {
+	public Photo(PhotoId myId, Location location) throws IllegalArgumentException{
+		if(null == location) {
+			throw new IllegalArgumentException("the given Location must not be null, you might use the default constructor without a location argument");
+		}
 		id = myId;
 		this.location = location;
 		incWriteCount();
@@ -167,7 +170,10 @@ public class Photo extends DataObject {
 	/**
 	 * @methodtype set
 	 */
-	public void setLocation(Location location) {
+	public void setLocation(Location location) throws IllegalArgumentException{
+		if(null == location) {
+			throw new IllegalArgumentException("the given Location must not be null");
+		}
 		this.location = location;
 	}
 	
