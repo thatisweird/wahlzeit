@@ -13,7 +13,7 @@ public class LocationTest {
 	
 	@Before
 	public void initLocAndCoord() {
-		coord = new CartesianCoordinate(1, 2, 3);
+		coord = CartesianCoordinate.createCartesianCoordinate(1, 2, 3);
 		locA = new Location();
 		locB = new Location(coord);
 	}
@@ -28,7 +28,7 @@ public class LocationTest {
 	public void getSetTest() {
 		assertTrue(coord.equals(locB.getCoordinate()));
 		
-		locB.setCoordinate(new CartesianCoordinate());
+		locB.setCoordinate(CartesianCoordinate.createCartesianCoordinate());
 		assertFalse(coord.equals(locB.getCoordinate()));
 	}
 	

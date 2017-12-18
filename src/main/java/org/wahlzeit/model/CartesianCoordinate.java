@@ -21,30 +21,44 @@
 package org.wahlzeit.model;
 
 import java.lang.Math;
+import java.util.HashSet;
+import java.util.Iterator;
 
 public class CartesianCoordinate extends AbstractCoordinate {
+	private static HashSet<CartesianCoordinate>existingCoordinates = new HashSet<CartesianCoordinate>();
 
 	String className = this.getClass().getName();
 
 	private double x;
 	private double y;
 	private double z;
+	
+	public static CartesianCoordinate createCartesianCoordinate() {
+		return CartesianCoordinate.createCartesianCoordinate(0, 0, 0);
+	}
+	
+	public static CartesianCoordinate createCartesianCoordinate(double x, double y, double z) {
+		CartesianCoordinate tmp = new CartesianCoordinate(x, y, z);
+		
+		if(!existingCoordinates.add(tmp)) {
+			Iterator<CartesianCoordinate> iter = existingCoordinates.iterator();
 
-	/**
-	 * @methodtype constructor
-	 */
-	public CartesianCoordinate() {
-		x = 0.0;
-		y = 0.0;
-		z = 0.0;
-
-		assertClassInvariatns();
+			while(iter.hasNext()){
+				Coordinate c = iter.next();
+				if(c.equals(tmp)) {
+					return c.asCartesianCoordinate();
+				}
+			}
+			
+		}
+		
+		return tmp;
 	}
 
 	/**
 	 * @methodtype constructor
 	 */
-	public CartesianCoordinate(double x, double y, double z) {
+	private CartesianCoordinate(double x, double y, double z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -63,14 +77,14 @@ public class CartesianCoordinate extends AbstractCoordinate {
 
 		double r = Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2) + Math.pow(this.z, 2));
 		if(r <= EPSILON) {
-			return new SphericCoordinate(0, 0, 0);
+			return SphericCoordinate.createSphericCoordinate(0, 0, 0);
 		}
 		double lati = Math.acos(this.z / r);
 		double longi = Math.atan2(this.y, this.x);
 
 		assertClassInvariatns();
 
-		return new SphericCoordinate(r, longi, lati);
+		return SphericCoordinate.createSphericCoordinate(r, longi, lati);
 	}
 
 	/**
@@ -113,16 +127,14 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	/**
 	 * @methodtype set
 	 */
-	public void setX(double x) {
+	public CartesianCoordinate setX(double x) {
 		String error = "In " + className + "precondition violation: ";
 		if(!isValidCoordinateAttribute(x)) {
 			throw new IllegalArgumentException(error + "x was: " + x + " but must be finite");
 		}
 		assertClassInvariatns();
 
-		this.x = x;
-
-		assertClassInvariatns();
+		return createCartesianCoordinate(x, this.y, this.z);
 	}
 
 	/**
@@ -135,16 +147,14 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	/**
 	 * @methodtype set
 	 */
-	public void setY(double y) {
+	public Coordinate setY(double y) {
 		String error = "In " + className + "precondition violation: ";
 		if(!isValidCoordinateAttribute(y)) {
 			throw new CoordinateException(error + "y was: " + y + " but must be finite");
 		}
 		assertClassInvariatns();
 
-		this.y = y;
-
-		assertClassInvariatns();
+		return createCartesianCoordinate(this.x, y, this.z);
 	}
 
 	/**
@@ -157,48 +167,14 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	/**
 	 * @methodtype set
 	 */
-	public void setZ(double z) {
+	public CartesianCoordinate setZ(double z) {
 		String error = "In " + className + "precondition violation: ";
 		if(!isValidCoordinateAttribute(z)) {
 			throw new CoordinateException(error + "z was: " + z + " but must be finite");
 		}
 		assertClassInvariatns();
 
-		this.z = z;
-
-		assertClassInvariatns();
-	}
-
-	/**
-	 * @methodtype set
-	 */
-	public void setXYZ(double x, double y, double z) {
-		assertClassInvariatns();
-
-		setX(x);
-		setY(y);
-		setZ(z);
-
-		assertClassInvariatns();
-	}
-
-	/**
-	 * generates a hash code for a coordinate object does not address the double
-	 * rounding error problem, still more accurate than the standard hashCode method
-	 */
-	@Override
-	public int hashCode() {
-		assertClassInvariatns();
-
-		final int prime = 41;
-		int res = 1;
-		res = prime * res + Double.hashCode(this.x);
-		res = prime * res + Double.hashCode(this.y);
-		res = prime * res + Double.hashCode(this.z);
-
-		assertClassInvariatns();
-
-		return res;
+		return createCartesianCoordinate(this.x, this.y, z);
 	}
 
 	@Override

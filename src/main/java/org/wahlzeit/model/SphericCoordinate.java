@@ -20,7 +20,11 @@
 
 package org.wahlzeit.model;
 
+import java.util.HashSet;
+import java.util.Iterator;
+
 public class SphericCoordinate extends AbstractCoordinate{
+	private static HashSet<SphericCoordinate> existingCoordinates = new HashSet<SphericCoordinate>();
 	
 	String className = this.getClass().getName();
 
@@ -30,15 +34,29 @@ public class SphericCoordinate extends AbstractCoordinate{
 	private double longitude;
 	private double latitude;
 
-	public SphericCoordinate() {
-		radius = 0.0;
-		longitude = 0.0;
-		latitude = 0.0;
+	public static SphericCoordinate createSphericCoordinate() {
+		return SphericCoordinate.createSphericCoordinate(0.0, 0.0, 0.0);
+	}
+	
+	public static SphericCoordinate createSphericCoordinate(double x, double y, double z) {
+		SphericCoordinate tmp = new SphericCoordinate(x, y, z);
+		
+		if(!existingCoordinates.add(tmp)) {
+			Iterator<SphericCoordinate> iter = existingCoordinates.iterator();
 
-		assertClassInvariatns();
+			while(iter.hasNext()){
+				Coordinate c = iter.next();
+				if(c.equals(tmp)) {
+					return c.asSphericCoordinate();
+				}
+			}
+			
+		}
+		
+		return tmp;
 	}
 
-	public SphericCoordinate(double radius, double longitude, double latitude) {
+	private SphericCoordinate(double radius, double longitude, double latitude) {
 		this.radius = radius;
 		this.longitude = longitude < 0.0 ? longitude % 360 + 360.0 : longitude % 360;
 		this.latitude = latitude < 0.0 ? latitude % 180 + 180.0
@@ -65,7 +83,7 @@ public class SphericCoordinate extends AbstractCoordinate{
 
 		assertClassInvariatns();
 		
-		return new CartesianCoordinate(x, y, z);
+		return CartesianCoordinate.createCartesianCoordinate(x, y, z);
 	}
 
 	public SphericCoordinate asSphericCoordinate() throws CoordinateException{
@@ -92,89 +110,50 @@ public class SphericCoordinate extends AbstractCoordinate{
 		return false;
 	}
 
-	/**
-	 * generates a hash code for a coordinate object does not address the double
-	 * rounding error problem, still more accurate than the standard hashCode method
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 41;
-		int res = 1;
-		res = prime * res + Double.hashCode(this.radius);
-		res = prime * res + Double.hashCode(this.longitude);
-		res = prime * res + Double.hashCode(this.latitude);
-
-		return res;
-	}
-
 	public double getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(double latitude) {
+	public SphericCoordinate setLatitude(double latitude) {
 		String error = "In " + className + "pre condition violation: ";
 		if(!isValidLatitude(latitude)){
 			throw new CoordinateException(error + "the received latitude was " + latitude + " must be a finite double within [0.0, 180.0)");
 		}
-
 		assertClassInvariatns();
 
-		this.latitude = latitude < 0.0 ? latitude % 180 + 180.0
-				: Math.abs(latitude - 180.0) < Coordinate.EPSILON ? 180.0 : latitude % 180;
-
-		assertClassInvariatns();
+		return createSphericCoordinate(this.radius, this.longitude, latitude);
 	}
 
 	public double getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(double longitude) {
+	public SphericCoordinate setLongitude(double longitude) {
 		String error = "In " + className + "pre condition violation: ";
 		if(!isValidLongitude(longitude)){
 			throw new CoordinateException(error + "the received longitude was: " + longitude + " must be a finite double within [0.0, 360.0)");
 		}
 		assertClassInvariatns();
 
-		this.longitude = longitude < 0.0 ? longitude % 360 + 360.0 : longitude % 360;
-
-		if (this.longitude < Coordinate.EPSILON || Math.abs(this.longitude - 180) < Coordinate.EPSILON) {
-			this.latitude = 0.0;
-		}
-
-		assertClassInvariatns();
+		return createSphericCoordinate(this.radius, longitude, this.latitude);
 	}
 
 	public double getRadius() {
 		return radius;
 	}
 
-	public void setRadius(double radius) {
+	public SphericCoordinate setRadius(double radius) {
 		String error = "In " + className + "pre condition violation: ";
 		if(!isValidRadius(radius)) {
 			throw new IllegalArgumentException(error + "the received radius was: " + radius + " but must be a finite double >= 0.0");
 		}
-
 		assertClassInvariatns();
 
-		this.radius = radius;
-
-		if (this.radius < Coordinate.EPSILON) {
-			this.longitude = this.latitude = 0.0;
+		if (radius < Coordinate.EPSILON) {
+			return createSphericCoordinate();
 		}
 		
-		
-		assertClassInvariatns();
-	}
-
-	public void setRLL(double radius, double longitude, double latitude) {
-		assertClassInvariatns();
-		
-		this.setRadius(radius);
-		this.setLongitude(longitude);
-		this.setLatitude(latitude);
-
-		assertClassInvariatns();
+		return createSphericCoordinate(radius, this.longitude, this.latitude);
 	}
 
 	@Override

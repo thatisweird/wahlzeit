@@ -22,7 +22,8 @@ package org.wahlzeit.model;
 
 
 interface Coordinate {
-	static final double EPSILON = 0.1e-8; 
+	static final int PLACES = 8;
+	static final double EPSILON = 1.0/Math.pow(10.0, PLACES); 
 
 	public CartesianCoordinate asCartesianCoordinate() throws CoordinateException;
 	public double getCartesianDistance(Coordinate target) throws IllegalArgumentException, CoordinateException;
@@ -30,4 +31,4 @@ interface Coordinate {
 	public double getSphericDistance(Coordinate target) throws IllegalArgumentException, CoordinateException;
 	public double getDistance(Coordinate target) throws IllegalArgumentException, CoordinateException;
 	public boolean isEqual(Coordinate coord);
-}
+}	

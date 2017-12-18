@@ -20,7 +20,12 @@
 
 package org.wahlzeit.model;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.HashSet;
+
 public abstract class AbstractCoordinate implements Coordinate {
+
 
 	/*
 	 * calculates the euclidean distance between this Coordinate and the given target Coordinate 
@@ -109,6 +114,38 @@ public abstract class AbstractCoordinate implements Coordinate {
 		return isEqual((Coordinate) obj);
 	}
 	
+	/**
+	 * generates a hash code for a coordinate object 
+	 */
+	@Override
+	public int hashCode() {
+		assertClassInvariatns();
+		
+		CartesianCoordinate  cc = this.asCartesianCoordinate();
+
+		final int prime = 41;
+		int res = 1;
+		res = prime * res + Double.hashCode(round(cc.getX()));
+		res = prime * res + Double.hashCode(round(cc.getY()));
+		res = prime * res + Double.hashCode(round(cc.getZ()));
+
+		assertClassInvariatns();
+
+		return res;
+	}
+	
+	/*
+	 * rounds a given double value to the same number of decimal places also used for the equals comparison
+	 * 
+	 * this was suggested at stackoverflow
+	 * https://stackoverflow.com/a/2808648
+	 */
+	private double round(double value) {
+		BigDecimal bd = new BigDecimal(value);
+	    bd = bd.setScale(Coordinate.PLACES, RoundingMode.HALF_UP);
+	    return bd.doubleValue();
+	}
+	
 	protected void assertIsNotNullArgument(Object obj){
 			if (null == obj)
 				throw new IllegalArgumentException("passed argument must not be null");
@@ -118,9 +155,6 @@ public abstract class AbstractCoordinate implements Coordinate {
 		if (0.0 > dist)
 			throw new CoordinateException("The calculated distance should be positive but was:	" + dist);
 	}
-	
-	@Override
-	public abstract int hashCode();
 	
 	abstract void assertClassInvariatns();
 }
