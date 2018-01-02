@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Paul Nickles JÃ¤kel
+ * Copyright (c) 2018 Paul Nickles Jäkel
  *  *
  * This file is part of the Wahlzeit photo rating application.
  *
@@ -23,6 +23,9 @@ package org.wahlzeit.model;
 import java.lang.Math;
 import java.util.HashMap;
 
+import org.wahlzeit.utils.DesignPattern;
+
+@DesignPattern(patternName = "ValueObject", participants= {"ValueObject"})
 public class CartesianCoordinate extends AbstractCoordinate {
 	private static HashMap<Coordinate, CartesianCoordinate>existingCoordinates = new HashMap<Coordinate, CartesianCoordinate>();
 

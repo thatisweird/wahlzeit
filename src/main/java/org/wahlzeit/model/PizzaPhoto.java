@@ -20,9 +20,12 @@
 
 package org.wahlzeit.model;
 
+import org.wahlzeit.utils.DesignPattern;
+
 import com.googlecode.objectify.annotation.Subclass;
 
 @Subclass
+@DesignPattern(patternName = "Abstract Factory", participants = {"Concrete Product"})
 public class PizzaPhoto extends Photo{
 	public enum PizzaSize{SMALL, MEDIUM, LARGE};
 	public enum PizzaShape{CIRCULAR, RECTANGULAR};

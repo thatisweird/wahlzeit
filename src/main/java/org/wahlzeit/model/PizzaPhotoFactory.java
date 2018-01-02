@@ -24,7 +24,9 @@ import java.util.logging.Logger;
 
 import org.wahlzeit.model.PizzaPhoto.*;
 import org.wahlzeit.services.LogBuilder;
+import org.wahlzeit.utils.DesignPattern;
 
+@DesignPattern(patternName = "Abstract Factory", participants = {"Concrete Factory"})
 public class PizzaPhotoFactory extends PhotoFactory{
 
 	private static final Logger log = Logger.getLogger(PizzaPhotoFactory.class.getName());

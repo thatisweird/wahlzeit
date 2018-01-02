@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2006-2009 by Dirk Riehle, http://dirkriehle.com
- *
+ * Copyright (c) 2018 Paul Nickles Jäkel
+ *  *
  * This file is part of the Wahlzeit photo rating application.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -18,32 +18,11 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package org.wahlzeit.services.mailing;
+package org.wahlzeit.utils;
 
-import org.wahlzeit.services.EmailAddress;
-import org.wahlzeit.utils.DesignPattern;
+//Java Annotation Type for Design Patterns
 
-import javax.mail.Message;
-
-/**
- * Abstract superclass for non-trivial EmailServer implementations.
- */
-@DesignPattern(patternName = "Null Object", participants = {"NullObject"})
-public class MockEmailService extends AbstractEmailService {
-
-	/**
-	 *
-	 */
-	protected Message doCreateEmail(EmailAddress from, EmailAddress to, EmailAddress bcc, String subject,
-									String body) throws MailingException {
-		return null;
-	}
-
-	/**
-	 *
-	 */
-	protected void doSendEmail(Message msg) throws MailingException {
-		// do nothing
-	}
-
+public @interface DesignPattern {
+	String patternName();
+	String[] participants();
 }
