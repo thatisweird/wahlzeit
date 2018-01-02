@@ -21,11 +21,10 @@
 package org.wahlzeit.model;
 
 import java.lang.Math;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.HashMap;
 
 public class CartesianCoordinate extends AbstractCoordinate {
-	private static HashSet<CartesianCoordinate>existingCoordinates = new HashSet<CartesianCoordinate>();
+	private static HashMap<Coordinate, CartesianCoordinate>existingCoordinates = new HashMap<Coordinate, CartesianCoordinate>();
 
 	String className = this.getClass().getName();
 
@@ -40,19 +39,14 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	public static CartesianCoordinate createCartesianCoordinate(double x, double y, double z) {
 		CartesianCoordinate tmp = new CartesianCoordinate(x, y, z);
 		
-		if(!existingCoordinates.add(tmp)) {
-			Iterator<CartesianCoordinate> iter = existingCoordinates.iterator();
+		CartesianCoordinate result = existingCoordinates.get(tmp);
 
-			while(iter.hasNext()){
-				Coordinate c = iter.next();
-				if(c.equals(tmp)) {
-					return c.asCartesianCoordinate();
-				}
-			}
-			
+		if(null == result) {
+			existingCoordinates.put(tmp, tmp);
+			result = tmp;
 		}
 		
-		return tmp;
+		return result;
 	}
 
 	/**

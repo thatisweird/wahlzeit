@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Paul Nickles JÃ¤kel
+ * Copyright (c) 2017 Paul Nickles Jäkel
  *  *
  * This file is part of the Wahlzeit photo rating application.
  *

@@ -20,16 +20,14 @@
 
 package org.wahlzeit.model;
 
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.HashMap;
 
 public class SphericCoordinate extends AbstractCoordinate{
-	private static HashSet<SphericCoordinate> existingCoordinates = new HashSet<SphericCoordinate>();
+	private static HashMap<Coordinate, SphericCoordinate> existingCoordinates = new HashMap<Coordinate, SphericCoordinate>();
 	
 	String className = this.getClass().getName();
 
 	// r >= 0, longitude in [0°, 360°), latitude [0°, 180°]
-
 	private double radius;
 	private double longitude;
 	private double latitude;
@@ -41,19 +39,14 @@ public class SphericCoordinate extends AbstractCoordinate{
 	public static SphericCoordinate createSphericCoordinate(double x, double y, double z) {
 		SphericCoordinate tmp = new SphericCoordinate(x, y, z);
 		
-		if(!existingCoordinates.add(tmp)) {
-			Iterator<SphericCoordinate> iter = existingCoordinates.iterator();
+		SphericCoordinate result = existingCoordinates.get(tmp);
 
-			while(iter.hasNext()){
-				Coordinate c = iter.next();
-				if(c.equals(tmp)) {
-					return c.asSphericCoordinate();
-				}
-			}
-			
+		if(null == result) {
+			existingCoordinates.put(tmp, tmp);
+			result = tmp;
 		}
 		
-		return tmp;
+		return result;
 	}
 
 	private SphericCoordinate(double radius, double longitude, double latitude) {
