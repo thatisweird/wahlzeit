@@ -22,6 +22,7 @@ package org.wahlzeit.model;
 
 import java.util.logging.Logger;
 
+import org.wahlzeit.model.pizza.Pizza;
 import org.wahlzeit.services.LogBuilder;
 import org.wahlzeit.utils.DesignPattern;
 
@@ -86,26 +87,26 @@ public class PizzaPhotoFactory extends PhotoFactory{
 	}
 
 	
-//	/**
-//	 * @methodtype factory, with pizza
-//	 */
-//	public PizzaPhoto createPhoto(Pizza pizza) {
-//		return new PizzaPhoto(pizza);
-//	}
-//
-//	/**
-//	 * Creates a new photo with the specified id and pizza
-//	 */
-//	public PizzaPhoto createPhoto(PhotoId id, Pizza pizza) {
-//		return new PizzaPhoto(id, pizza);
-//	}
-//
-//	/**
-//	 * Creates a new photo with the specified id, location and pizza
-//	 */
-//	public PizzaPhoto createPhoto(PhotoId id, Location loc, Pizza pizza) {
-//		return new PizzaPhoto(id, loc, pizza);
-//	}
+	/**
+	 * @methodtype factory, with pizza
+	 */
+	public PizzaPhoto createPhoto(Pizza pizza) {
+		return new PizzaPhoto(pizza);
+	}
+
+	/**
+	 * Creates a new photo with the specified id and pizza
+	 */
+	public PizzaPhoto createPhoto(PhotoId id, Pizza pizza) {
+		return new PizzaPhoto(id, pizza);
+	}
+
+	/**
+	 * Creates a new photo with the specified id, location and pizza
+	 */
+	public PizzaPhoto createPhoto(PhotoId id, Location loc, Pizza pizza) {
+		return new PizzaPhoto(id, loc, pizza);
+	}
 	
 	
 	
