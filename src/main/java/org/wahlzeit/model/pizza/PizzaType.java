@@ -14,9 +14,16 @@ public class PizzaType {
 
 	private String name;
 	private HashSet<Pizza> instances = new HashSet<Pizza>(); 
+	
+	public PizzaManager manager = null;
 
 	public PizzaType(String name) {
 		this.name = name;
+	}
+
+	public PizzaType(String name, PizzaManager pm) {
+		this.name = name;
+		this.manager = pm;
 	}
 	
 	public String getName() {
@@ -33,6 +40,10 @@ public class PizzaType {
 	
 	public Pizza createInstance(Location location, PizzaSize size, PizzaShape shape) {
 		return new Pizza(this, location, size, shape);
+	}
+	
+	public void addPizzaManager(PizzaManager pm) {
+		this.manager = manager;
 	}
 	
 	public PizzaType getSuperType() {
