@@ -2,16 +2,14 @@ package org.wahlzeit.model;
 
 import static org.junit.Assert.*;
 
-import org.apache.tools.ant.types.Assertions;
-import org.apache.tools.ant.types.resources.selectors.InstanceOf;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.wahlzeit.model.PizzaPhoto.PizzaShape;
-import org.wahlzeit.model.PizzaPhoto.PizzaSize;
+import org.wahlzeit.model.pizza.Pizza;
+import org.wahlzeit.model.pizza.Pizza.PizzaShape;
+import org.wahlzeit.model.pizza.Pizza.PizzaSize;
+import org.wahlzeit.model.pizza.PizzaManager;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
@@ -39,10 +37,15 @@ public class PizzaPhotoTest {
 		// datastore = DatastoreServiceFactory.getDatastoreService();
 
 		photoA = new Photo();
+
 		pizzaPhotoA = new PizzaPhoto();
 		pizzaPhotoB = new PizzaPhoto(PhotoId.getNextId());
 		pizzaPhotoC = new PizzaPhoto(PhotoId.getNextId(), loc);
-		pizzaPhotoD = new PizzaPhoto(PhotoId.getNextId(), loc, PizzaSize.LARGE, PizzaShape.RECTANGULAR);
+		
+		Pizza p = PizzaManager.getInstance().createPizza("hawaii");
+		p.setSize(PizzaSize.LARGE);
+		p.setShape(PizzaShape.RECTANGULAR);
+		pizzaPhotoD = new PizzaPhoto(PhotoId.getNextId(), loc, p);
 	}
 
 	@After
@@ -72,18 +75,13 @@ public class PizzaPhotoTest {
 
 	@Test
 	public void defaultAttributesTest() {
-		assertEquals(pizzaPhotoD.getSize(), PizzaSize.LARGE);
-		assertEquals(pizzaPhotoD.getShape(), PizzaShape.RECTANGULAR);
-
-		assertNotNull(pizzaPhotoA);
-		assertEquals(pizzaPhotoA.getSize(), PizzaSize.SMALL);
-		assertEquals(pizzaPhotoA.getShape(), PizzaShape.CIRCULAR);
-
+		assertEquals(pizzaPhotoD.getPizza().getSize(), PizzaSize.LARGE);
+		assertEquals(pizzaPhotoD.getPizza().getShape(), PizzaShape.RECTANGULAR);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void badAttributesTest() {
-		pizzaPhotoA = new PizzaPhoto(null, null, null, null);
+		pizzaPhotoA = new PizzaPhoto(null, null, null);
 	}
 
 }

@@ -20,8 +20,6 @@
 
 package org.wahlzeit.model;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Logger;
 
 public class PizzaPhotoManager extends PhotoManager {

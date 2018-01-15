@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Paul Nickles JÃ¤kel
+ * Copyright (c) 2017 Paul Nickles Jäkel
  *  *
  * This file is part of the Wahlzeit photo rating application.
  *
@@ -22,7 +22,6 @@ package org.wahlzeit.model;
 
 import java.util.logging.Logger;
 
-import org.wahlzeit.model.PizzaPhoto.*;
 import org.wahlzeit.services.LogBuilder;
 import org.wahlzeit.utils.DesignPattern;
 
@@ -71,26 +70,43 @@ public class PizzaPhotoFactory extends PhotoFactory{
 		return new PizzaPhoto();
 	}
 	
-	
+
 	/**
 	 * Creates a new photo with the specified id
 	 */
 	public PizzaPhoto createPhoto(PhotoId id) {
 		return new PizzaPhoto(id);
 	}
+
 	/**
 	 * Creates a new photo with the specified id and location
 	 */
 	public PizzaPhoto createPhoto(PhotoId id, Location loc) {
 		return new PizzaPhoto(id, loc);
 	}
+
 	
-	/**
-	 * Creates a new photo with the specified id and location
-	 */
-	public PizzaPhoto createPhoto(PhotoId id, Location loc, PizzaSize size, PizzaShape shape) {
-		return new PizzaPhoto(id, loc, size, shape);
-	}
+//	/**
+//	 * @methodtype factory, with pizza
+//	 */
+//	public PizzaPhoto createPhoto(Pizza pizza) {
+//		return new PizzaPhoto(pizza);
+//	}
+//
+//	/**
+//	 * Creates a new photo with the specified id and pizza
+//	 */
+//	public PizzaPhoto createPhoto(PhotoId id, Pizza pizza) {
+//		return new PizzaPhoto(id, pizza);
+//	}
+//
+//	/**
+//	 * Creates a new photo with the specified id, location and pizza
+//	 */
+//	public PizzaPhoto createPhoto(PhotoId id, Location loc, Pizza pizza) {
+//		return new PizzaPhoto(id, loc, pizza);
+//	}
+	
 	
 	
 }

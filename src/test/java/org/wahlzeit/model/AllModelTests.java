@@ -19,7 +19,9 @@ import org.wahlzeit.model.persistence.DatastoreAdapterTest;
 	DatastoreAdapterTest.class,
 	PizzaPhotoFactoryTest.class,
 	PizzaPhotoTest.class,
-	PizzaPhotoManagerTest.class
+	PizzaPhotoManagerTest.class,
+	PizzaTypeTest.class, 
+	PizzaManagerTest.class
 })
 public class AllModelTests {
 

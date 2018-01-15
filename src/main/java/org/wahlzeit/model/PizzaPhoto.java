@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Paul Nickles JÃ¤kel
+ * Copyright (c) 2017 Paul Nickles Jäkel
  *  *
  * This file is part of the Wahlzeit photo rating application.
  *
@@ -20,51 +20,74 @@
 
 package org.wahlzeit.model;
 
+import org.wahlzeit.model.pizza.Pizza;
 import org.wahlzeit.utils.DesignPattern;
 
+import com.googlecode.objectify.annotation.Serialize;
 import com.googlecode.objectify.annotation.Subclass;
 
 @Subclass
 @DesignPattern(patternName = "Abstract Factory", participants = {"Concrete Product"})
 public class PizzaPhoto extends Photo{
-	public enum PizzaSize{SMALL, MEDIUM, LARGE};
-	public enum PizzaShape{CIRCULAR, RECTANGULAR};
 	
-	private PizzaSize size;
-	private PizzaShape shape;
+	@Serialize
+	private Pizza pizza = null;
 
 	/**
 	 * @methodtype constructor
 	 */
 	public PizzaPhoto() {
 		super();
-		this.size = PizzaSize.SMALL;
-		this.shape = PizzaShape.CIRCULAR;
 	}
-		
+
 	/**
 	 * @methodtype constructor
 	 */
 	public PizzaPhoto(PhotoId myId) {
 		super(myId);
-		this.size = PizzaSize.SMALL;
-		this.shape = PizzaShape.CIRCULAR;
-	}
-	
-	/**
-	 * @methodtype constructor
-	 */
-	public PizzaPhoto(PhotoId myId, Location location) throws IllegalArgumentException{
-		super(myId, location);
-
-		this.size = PizzaSize.SMALL;
-		this.shape = PizzaShape.CIRCULAR;
 	}
 
 	/**
 	 * @methodtype constructor, uses default attributes for null parameter
 	 */
-	public PizzaPhoto(PhotoId myId, Location location, PizzaSize size, PizzaShape shape) throws IllegalArgumentException{
+	public PizzaPhoto(PhotoId myId, Location location) throws IllegalArgumentException{
+		if(null == location) {
+			throw new IllegalArgumentException("the given Location must not be null, you might use the default constructor without a location argument");
+		}
+
+		if(null == myId) {
+			id = PhotoId.getNextId();
+		}else {
+			id = myId;
+		}
+		incWriteCount();
+		
+		this.location = location;
+	}
+
+	/**
+	 * @methodtype constructor
+	 */
+	public PizzaPhoto(Pizza pizza) {
+		super();
+		this.pizza = pizza;
+		pizza.addPizzaPhotoToPizza(this);
+	}
+		
+	/**
+	 * @methodtype constructor
+	 */
+	public PizzaPhoto(PhotoId myId, Pizza pizza) {
+		super(myId);
+		this.pizza = pizza;
+		pizza.addPizzaPhotoToPizza(this);
+	}
+
+	
+	/**
+	 * @methodtype constructor, uses default attributes for null parameter
+	 */
+	public PizzaPhoto(PhotoId myId, Location location, Pizza pizza) throws IllegalArgumentException{
 		if(null == location) {
 			throw new IllegalArgumentException("the given Location must not be null, you might use the default constructor without a location argument");
 		}
@@ -78,36 +101,27 @@ public class PizzaPhoto extends Photo{
 		
 		this.location = location;
 		
-		if(null == size) {
-			this.size = PizzaSize.SMALL;
-		}else {
-			this.size = size;
+		this.pizza = pizza;
+		pizza.addPizzaPhotoToPizza(this);
+	}
+	
+	public Pizza getPizza() {
+		return this.pizza;
+	}
+	
+	public void setPizza(Pizza pizza) {
+		if(null == pizza) {
+			removePizza();
+			return;
 		}
-		
-		if (null == shape) {
-			this.shape = PizzaShape.CIRCULAR;
-		}else {
-			this.shape = shape;
-		}
+
+		this.pizza = pizza;
+		pizza.addPizzaPhotoToPizza(this);
 	}
 	
-
-	public PizzaSize getSize() {
-		return size;
+	public void removePizza() {
+		this.pizza.removePhoto(this);
+		this.pizza = null;
 	}
 
-	public void setSize(PizzaSize size) {
-		this.size = size;
-	}
-
-	public PizzaShape getShape() {
-		return shape;
-	}
-
-	public void setShape(PizzaShape shape) {
-		this.shape = shape;
-	}
-	
-	
-	
 }
