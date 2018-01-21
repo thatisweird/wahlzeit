@@ -13,7 +13,6 @@ public class Pizza {
 	private PizzaShape shape;
 	
 	private HashSet<Photo> photos = new HashSet<Photo>();
-	public PizzaManager manager = null;
 	private PizzaType type = null;
 	private Location birthOvenLocation;
 	

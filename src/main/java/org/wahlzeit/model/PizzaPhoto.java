@@ -23,14 +23,14 @@ package org.wahlzeit.model;
 import org.wahlzeit.model.pizza.Pizza;
 import org.wahlzeit.utils.DesignPattern;
 
-import com.googlecode.objectify.annotation.Serialize;
+import com.googlecode.objectify.annotation.Container;
 import com.googlecode.objectify.annotation.Subclass;
 
 @Subclass
 @DesignPattern(patternName = "Abstract Factory", participants = {"Concrete Product"})
 public class PizzaPhoto extends Photo{
 	
-	@Serialize
+	@Container
 	private Pizza pizza = null;
 
 	/**
